@@ -1,0 +1,9 @@
+#size-selector {
+    margin: 0 1em;
+}
+#size-selector input {
+    width: 4em;
+}
+#size-selector button {
+    cursor: pointer;
+}

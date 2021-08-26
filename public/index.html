@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="fr" dir="ltr">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta name="description" content="Texel - Cr&eacute;ez des textures proc&eacute;durales en GLSL.">
+        <title>Texel</title>
+        <link rel="stylesheet" href="./loading.css">
+        <link rel="icon" href="favicon.ico" />
+    </head>
+    <body>
+        <div id="loading">
+            <div class="lds-ring"><div></div><div></div><div></div><div></div></div>
+        </div>
+
+        <div class="flex" id="header-panel">
+            <img id="logo" src="./img/Texel.png" alt="Texel" draggable="false">
+            <div id="file-options"></div>
+            <div id="texture-panel"></div>
+            <div id="buffer-selector"></div>
+            <div id="size-selector"></div>
+            <div id="mesh-selector"></div>
+            <div id="help-section"></div>
+        </div>
+        <div class="flex" id="main-panel">
+            <div class="flex" id="result-panel">
+                <div id="render-panel">
+                    <div id="webgl-screen"></div>
+                </div>
+            </div>
+            <div class="flex-c" id="code-panel">
+                <div id="code"><div id="code-inject"></div></div>
+                <pre class="no-error" id="error-zone"></pre>
+            </div>
+        </div>
+
+        <link rel="stylesheet" href="./bundle.css">
+        <script src="bundle.js"></script>
+    </body>
+</html>

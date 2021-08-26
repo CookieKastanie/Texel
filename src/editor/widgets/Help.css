@@ -1,0 +1,17 @@
+.help-button {
+    position: relative;
+    text-decoration: underline;
+    cursor: pointer;
+}
+.help-text {
+    position: absolute;
+    top: 2.5em;
+    display: none;
+    margin: 0;
+    padding: 5px;
+    background: #222;
+    z-index: 10;
+}
+.help-button:hover + .help-text, .help-text:hover {
+    display: block;
+}

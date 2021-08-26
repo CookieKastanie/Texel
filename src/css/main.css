@@ -1,0 +1,103 @@
+body {
+    margin: 0;
+    font-family: 'Segoe UI', sans-serif;
+    background-color: #444;
+    color: #EEE;
+    width: 100vw;
+    height: 100vh;
+}
+
+.hidden {
+    display: none;
+}
+
+.CodeMirror {
+    font-family: Arial, monospace;
+    font-size: 16px;
+    height: 100%;
+}
+
+
+#webgl-screen {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+#webgl-canvas {
+    max-width: 100%;
+    max-height: 100%;
+}
+
+#logo {
+    height: 80%;
+}
+
+#code {
+    height: 90%;
+}
+
+#error-zone {
+    padding: 2px 8px;
+    font: 16px monospace;
+    height: 10%;
+    overflow-y: auto;
+    margin: 0;
+    z-index: 4;
+}
+
+.error {
+    background: rgb(116, 26, 26);
+}
+
+.no-error {
+    background: rgb(32, 99, 38);
+}
+
+
+#header-panel {
+    height: 50px;
+    background: #555;
+    align-items: center;
+    padding: 0 10px;
+}
+
+
+#main-panel {
+    height: calc(100% - 50px);
+}
+
+#code-panel {
+    height: 100%;
+}
+
+#render-panel {
+    width: 100%;
+    height: 100%;
+}
+
+
+.flex {
+    display: flex;
+    flex-direction: row;
+}
+
+.flex-c {
+    display: flex;
+    flex-direction: column;
+}
+
+.gutter.gutter-horizontal {
+    cursor: ew-resize;
+    z-index: 5;
+}
+.gutter.gutter-horizontal::after {
+    content: "";
+    display: block;
+    margin: 10px auto 0 auto;
+    width: 2px;
+    height: calc(100% - 20px);
+    background: #222;
+}
