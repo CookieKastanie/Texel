@@ -58,6 +58,7 @@ Liste des fonctions additionnelles :
 `,
     meshSelectorLabel: 'Modèle :',
     defaultMeshName: 'Défaut',
-    spheretMeshName: 'Sphère',
-    cubeMeshName: 'Cube'
+    sphereMeshName: 'Sphère',
+    cubeMeshName: 'Cube',
+    custom: 'Perso*'
 }

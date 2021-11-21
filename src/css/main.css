@@ -62,8 +62,16 @@ body {
     background: #555;
     align-items: center;
     padding: 0 10px;
+    user-select: none;
 }
 
+button {
+    cursor: pointer;
+    background-color: rgba(255, 255, 255, 0.1);
+    color: #EEE;
+    border: 1px solid #EEE;
+    border-radius: 3px;
+}
 
 #main-panel {
     height: calc(100% - 50px);

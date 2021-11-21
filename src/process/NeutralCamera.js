@@ -6,8 +6,6 @@ export class NeutralCamera extends Camera {
         super(1, 1);
 
         this.projection = mat4.create();
-        this.position[2] = 1;
-        mat4.translate(this.camera, this.camera, this.position);
     }
 
     setSize(width, height) {}

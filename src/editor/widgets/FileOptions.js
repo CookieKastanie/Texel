@@ -20,6 +20,8 @@ export class FileOptions {
                 };
                 reader.readAsText(input.files[0]);
             }
+
+            input.value = null;
         });
         dropdown.appendChild(importinput);
 

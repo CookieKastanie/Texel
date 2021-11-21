@@ -2,7 +2,7 @@ import { frags } from './frags/importFrags';
 
 export class SB {
     static buidVertexShader() {
-        return `#version 300 es
+        return `#version ${SB.VERSION}
         precision mediump float;
         
         layout(location = 0) in vec3 a_position;
@@ -26,6 +26,8 @@ export class SB {
     }
 }
 
+SB.VERSION = '300 es';
+
 SB.TEX = 'tex';
 SB.CURRENT_BUFFER = 'currentBuffer';
 SB.BUFFER = 'buffer';
@@ -45,7 +47,7 @@ SB.ALPHABET = ['A', 'B', 'C', 'D', 'E', 'F'];
 SB.BUFFERCOUNT = 4;
 SB.TEXCOUNT = 6;
 
-const fragBegin = '#version 300 es\n'+
+const fragBegin = `#version ${SB.VERSION}\n`+
 `precision mediump float;
 
 struct TextureInfos {

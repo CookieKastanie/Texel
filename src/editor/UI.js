@@ -25,3 +25,5 @@ export class UI {
         new MeshSelector(UITools.cleanQuery('#mesh-selector'));
     }
 }
+
+UI.SizeSelector = SizeSelector;

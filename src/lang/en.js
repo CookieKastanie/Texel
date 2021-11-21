@@ -14,6 +14,7 @@ export default {
     helpText: 'WIP',
     meshSelectorLabel: 'Mesh :',
     defaultMeshName: 'Default',
-    spheretMeshName: 'Sphere',
-    cubeMeshName: 'Cube'
+    sphereMeshName: 'Sphere',
+    cubeMeshName: 'Cube',
+    custom: 'Custom'
 }

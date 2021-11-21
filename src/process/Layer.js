@@ -33,7 +33,7 @@ void main() {
         this.shader = new ShaderLayer(this.savedFragment);
         this.framebuffer = new FrameBuffer(600, 600, {
             texColor: true, texColorUnit: unit,
-            depthTest: false,
+            depthTest: true,
         });
 
         this.framebuffer.getTexture().setParameters({
@@ -114,6 +114,12 @@ void main() {
     }
 
     setSize(width, height) {
+        if(isNaN(width)) width = 1;
+        if(isNaN(height)) height = 1;
+
+        width = Math.max(width, 1);
+        height = Math.max(height, 1);
+
         this.getFrameBuffer().setSize(width, height);
         this.forceRender();
         this.controleCamera.setSize(width, height);

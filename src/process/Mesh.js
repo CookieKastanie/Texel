@@ -1,4 +1,5 @@
 import { VAO, IndexedVAO, VBO, IBO } from "akila/webgl";
+import { Parser } from 'akila/utils'
 
 export class Mesh {
     static init() {
@@ -30,6 +31,28 @@ export class Mesh {
         .addVBO(new VBO(cubeData.vertices, 3, 0))
         .addVBO(new VBO(cubeData.uv, 2, 1))
         .addVBO(new VBO(cubeData.normals, 3, 2));
+
+        ///////////////////////////////////////////
+
+        Mesh.custom = new VAO()
+        .addVBO(new VBO([
+            3,1,0, -1,1,0, -1,-3,0
+        ], 3, 0, VBO.DYNAMIC_DRAW))
+        .addVBO(new VBO([
+            2,1,    0,1,    0,-1
+        ], 2, 1, VBO.DYNAMIC_DRAW))
+        .addVBO(new VBO([
+            0,0,1,  0,0,1,  0,0,1
+        ], 3, 2, VBO.DYNAMIC_DRAW));
+    }
+
+    static loadFromOBJText(txt) {
+        const mesh = Parser.obj(txt);
+
+        Mesh.custom.getVBO(0).setNewData(mesh.vertex);
+        Mesh.custom.getVBO(1).setNewData(mesh.uv);
+        Mesh.custom.getVBO(2).setNewData(mesh.normal);
+        Mesh.custom.refreshDataLength();
     }
 }
 

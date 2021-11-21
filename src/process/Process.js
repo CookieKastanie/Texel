@@ -7,6 +7,7 @@ import { Editor } from "../editor/Editor";
 import { Downloader } from './Downloader';
 import { Time } from "akila/time";
 import { GIFRecorder } from '../libs/gif/GIFRecorder';
+import { SB } from "./SB";
 
 export class Process {
     static init() {
@@ -14,7 +15,6 @@ export class Process {
 
         Mouse.DOM_TARGET_CANVAS = true;
         Process.display = new Display(600, 600, {webGLVersion: 2, antialias: false});
-        Process.display.disable(Display.DEPTH_TEST);
         Process.display.setClearColor(0.0, 0.0, 0.0, 0.0);
         Process.display.clear();
 
@@ -63,11 +63,12 @@ export class Process {
     }
 
     static setSelectedLayerSize(width, height) {
-        width = Math.max(width, 1);
-        height = Math.max(height, 1);
-        
         Process.selectedLayer.setSize(width, height);
-        Process.display.setSize(width, height);
+        Process.display.setSize(
+            Process.selectedLayer.getWidth(),
+            Process.selectedLayer.getHeight()
+        );
+        UI.SizeSelector.refresh();
     }
 
     static setSelectedLayerMesh(mesh) {
@@ -101,26 +102,47 @@ export class Process {
     }
 
     static serializePrograms() {
-        let str = '';
-
-        for(let i = 0; i < Process.layerNumber; ++i) {
-            const frag = Process.layers[i].getSavedFragment();
-
-            str += `${frag}@start_end@`;
+        const data = {
+            glsl: SB.VERSION,
+            date: new Date(),
+            layers: []
         }
 
-        return str;
+        for(let i = 0; i < Process.layerNumber; ++i) {
+            const layer = Process.layers[i];
+
+            data.layers.push({
+                width: layer.getWidth(),
+                height: layer.getHeight(),
+                fragment: layer.getSavedFragment()
+            });
+        }
+
+        return JSON.stringify(data);
     }
 
     static unserializePrograms(textFile) {
-        const frags = textFile.split('@start_end@');
-        for(let i = 0; i < Math.min(frags.length, Process.layerNumber); ++i) {
-            const frag = frags[i];
-            if(frag != '') {
-                Process.layers[i].setSavedFragment(frag);
-                if(i == Process.selectedLayerIndex) Editor.setValue(frag);
+        try {
+            const data = JSON.parse(textFile);
+
+            if(data.glsl !== SB.VERSION) console.warn('File GLSL version differs from that of the application')
+
+            for(let i = 0; i < Math.min(data.layers.length, Process.layerNumber); ++i) {
+                const layer = data.layers[i];
+                if(layer.fragment != '') {
+                    Process.layers[i].setSavedFragment(layer.fragment);
+                    
+                    if(i == Process.selectedLayerIndex) {
+                        Editor.setValue(layer.fragment);
+                        Process.setSelectedLayerSize(layer.width, layer.height);
+                    } else {
+                        Process.layers[i].setSize(layer.width, layer.height);
+                    }
+                }
             }
-        }
+        } catch(e) {
+            console.error(e);
+        } 
     }
 
     static saveToLocalStorage() {
