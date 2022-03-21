@@ -43,8 +43,8 @@ window.cmd = {
         }, true);
         location.reload();
     },
-    record: (duration, fps) => {
-        Process.gifRecorder.record(duration, fps);
+    record: (format, duration, fps) => {
+        Process.record(format, duration, fps);
     }
 }
 

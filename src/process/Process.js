@@ -6,7 +6,9 @@ import { UI } from "../editor/UI";
 import { Editor } from "../editor/Editor";
 import { Downloader } from './Downloader';
 import { Time } from "akila/time";
+import { Recorder } from "./Recorder";
 import { GIFRecorder } from '../libs/gif/GIFRecorder';
+import { PNGRecorder } from './PNGRecorder';
 import { SB } from "./SB";
 
 export class Process {
@@ -41,7 +43,7 @@ export class Process {
 
         Process.afterDraw = () => {}; // A changer
 
-        Process.gifRecorder = new GIFRecorder();
+        Process.recorder = new Recorder();
     }
 
     static selectLayer(n) {
@@ -89,7 +91,7 @@ export class Process {
     }
 
     static draw() {
-        if(Process.gifRecorder.isRecording()) Process.timeNow = Process.gifRecorder.getTime();
+        if(Process.recorder.isRecording()) Process.timeNow = Process.recorder.getTime();
         else Process.timeNow = Time.now;
 
         for(let i = 0; i < Process.layerNumber; ++i) {
@@ -98,7 +100,7 @@ export class Process {
 
         Process.afterDraw(); // A changer
 
-        Process.gifRecorder.update(Process.display.getCtx());
+        Process.recorder.update(Process.display.getCtx());
     }
 
     static serializePrograms() {
@@ -172,6 +174,29 @@ export class Process {
             Downloader.canvasImage(fileName, Process.display.getCanvas());
             Process.afterDraw = () => {};
         }
+    }
+
+    static record(format, duration, fps) {
+        if(Process.recorder.isRecording()) {
+            console.warn('You are already recording');
+            return;
+        }
+
+        switch(format) {
+            case 'gif':
+                Process.recorder = new GIFRecorder();
+                break;
+
+            case 'png':
+                Process.recorder = new PNGRecorder();
+                break;
+        
+            default:
+                Process.recorder = new Recorder();
+                break;
+        }
+
+        Process.recorder.record(duration, fps);
     }
 }
 

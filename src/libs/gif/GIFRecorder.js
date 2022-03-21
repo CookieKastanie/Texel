@@ -1,58 +1,47 @@
 const GIFEncoder = require('./GIFEncoder');
+import { Recorder } from '../../process/Recorder';
 
-export class GIFRecorder {
+export class GIFRecorder extends Recorder {
     constructor() {
+        super();
+
         this.encoder = new GIFEncoder();
-        this.timer = 0;
         this.delta = 40; // 25 fps
-        this.recording = false;
 
         this.canvas = document.createElement('canvas');
         this.ctx = this.canvas.getContext('2d');
     }
 
-    record(duration = 1000, fps = 25) { // duration in ms
-        if(!this.recording) {
-            this.encoder.setRepeat(0); // 0 -> loop forever
+    record(duration = 1, fps = 25) {
+        this.encoder.setRepeat(0); // 0 -> loop forever
 
-            this.delta = (1 / fps) * 1000;
-            this.encoder.setDelay(this.delta); // milliseconds
+        this.delta = (1 / fps) * 1000;
+        this.encoder.setDelay(this.delta); // milliseconds
 
-            this.timer = 0;
-            this.recording = true;
-            this.duration = duration;
-    
-            this.encoder.start();
-        } else {
-            console.warn('You are already recording');
-        }
+        this.timer = 0;
+        this.recording = true;
+        this.duration = duration * 1000;
+
+        this.encoder.start();
     }
 
     update(context) {
-        if(this.recording) {
-            if(this.timer <= this.duration) {
-                this.canvas.width = context.canvas.width;
-                this.canvas.height = context.canvas.height;
+        if(!this.recording) return;
 
-                this.ctx.drawImage(context.canvas, 0, 0, context.canvas.width, context.canvas.height);
-                this.encoder.addFrame(this.ctx);
+        if(this.timer <= this.duration) {
+            this.canvas.width = context.canvas.width;
+            this.canvas.height = context.canvas.height;
 
-                console.log(((this.timer / this.duration) * 100) + '%');
+            this.ctx.drawImage(context.canvas, 0, 0, context.canvas.width, context.canvas.height);
+            this.encoder.addFrame(this.ctx);
 
-                this.timer += this.delta;
-            } else {
-                this.recording = false;
-                this.encoder.finish();
-                this.encoder.download('result.gif');
-            }
+            console.log(((this.timer / this.duration) * 100) + '%');
+
+            this.timer += this.delta;
+        } else {
+            this.recording = false;
+            this.encoder.finish();
+            this.encoder.download('result.gif');
         }
-    }
-
-    isRecording() {
-        return this.recording;
-    }
-
-    getTime() {
-        return this.timer / 1000; // ms to seconds
     }
 }

@@ -2,7 +2,8 @@ export class Downloader {
     static data(filename = 'download', type = Downloader.TEXT, data) {
         const element = document.createElement('a');
 
-        switch(type) {  
+        switch(type) {
+            case Downloader.BLOB:
             case Downloader.IMAGE:
                 element.setAttribute('href', data);
                 break;
@@ -29,7 +30,12 @@ export class Downloader {
     static canvasImage(filename, canvas) {
         Downloader.data(filename, Downloader.IMAGE, canvas.toDataURL('image/png'));
     }
+
+    static blob(filename, blob) {
+        Downloader.data(filename, Downloader.BLOB, URL.createObjectURL(blob));
+    }
 }
 
 Downloader.TEXT = 'TEXT';
 Downloader.IMAGE = 'IMAGE';
+Downloader.BLOB = 'BLOB';
