@@ -10,6 +10,7 @@ import { Recorder } from "./Recorder";
 import { GIFRecorder } from '../libs/gif/GIFRecorder';
 import { PNGRecorder } from './PNGRecorder';
 import { SB } from "./SB";
+import { Clipboard } from "./Clipboard";
 
 export class Process {
     static init() {
@@ -33,8 +34,6 @@ export class Process {
         for(let i = 0; i < Process.textureNumber; ++i) {
             Process.textures.push(new Texture(null, 1, 1).setParameters({flipY: true}).setUnit(i + Process.layerNumber));
         }
-
-        Process.newTextureData = new Array();
 
         Process.selectLayer(0);
         UI.createMenus();
@@ -197,6 +196,28 @@ export class Process {
         }
 
         Process.recorder.record(duration, fps);
+    }
+
+    static programsToB64URLCLipboard() {
+        const json = Process.serializePrograms();
+        const b64 = window.btoa(json);
+
+        const url = `${window.location.origin}/?b64=${b64}`;
+        Clipboard.copyText(url);
+    }
+
+    static programsFromDocumentURLB64() {
+        const params = new URLSearchParams(window.location.search);
+        const b64 = params.get('b64');
+        if(!b64) return;
+
+        if(confirm('Accept new program ?')) {
+            const json = window.atob(b64);
+            Process.unserializePrograms(json);
+            Process.saveToLocalStorage();
+        }
+        
+        window.location.href = window.location.origin;
     }
 }
 

@@ -35,7 +35,7 @@ export class GIFRecorder extends Recorder {
             this.ctx.drawImage(context.canvas, 0, 0, context.canvas.width, context.canvas.height);
             this.encoder.addFrame(this.ctx);
 
-            console.log(((this.timer / this.duration) * 100) + '%');
+            console.log(((this.timer / this.duration) * 100).toFixed(1) + '%');
 
             this.timer += this.delta;
         } else {

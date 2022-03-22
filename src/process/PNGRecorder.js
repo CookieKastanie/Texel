@@ -11,7 +11,7 @@ const b64toBlob = dataURI => {
         ia[i] = byteString.charCodeAt(i);
     }
 
-    return new Blob([ab], {type: 'image/jpeg'});
+    return new Blob([ab], {type: 'image/png'});
 }
 
 export class PNGRecorder extends Recorder {
@@ -38,7 +38,7 @@ export class PNGRecorder extends Recorder {
                 input: b64toBlob(context.canvas.toDataURL('image/png'))
             });
 
-            console.log(((this.timer / this.duration) * 100) + '%');
+            console.log(((this.timer / this.duration) * 100).toFixed(1) + '%');
 
             this.timer += this.delta;
         } else {
@@ -48,8 +48,6 @@ export class PNGRecorder extends Recorder {
                 Downloader.blob('result.zip', blob);
                 console.log(`ffmpeg -framerate ${1 / (this.delta / 1000)} -i %04d.png output.webm`);
             }).catch(console.error);
-
-            // ffmpeg -framerate 60 -i %04d.png output.webm
         }
     }
 }

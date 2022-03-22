@@ -45,6 +45,9 @@ window.cmd = {
     },
     record: (format, duration, fps) => {
         Process.record(format, duration, fps);
+    },
+    programsToClipboard: () => {
+        Process.programsToB64URLCLipboard();
     }
 }
 
@@ -63,4 +66,7 @@ window.addEventListener('beforeunload', () => {
 
 setTimeout(() => {
     document.querySelector('body').removeChild(document.getElementById('loading'));
+    setTimeout(() => {
+        Process.programsFromDocumentURLB64();
+    }, 100);
 }, 10);
