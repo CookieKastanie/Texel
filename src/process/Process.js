@@ -202,7 +202,8 @@ export class Process {
         const json = Process.serializePrograms();
         const b64 = window.btoa(json);
 
-        const url = `${window.location.origin}/?b64=${b64}`;
+        const href = window.location.origin + window.location.pathname;
+        const url = `${href}?b64=${b64}`;
         Clipboard.copyText(url);
     }
 
@@ -217,7 +218,7 @@ export class Process {
             Process.saveToLocalStorage();
         }
         
-        window.location.href = window.location.origin;
+        window.location.href = window.location.origin + window.location.pathname;
     }
 }
 
