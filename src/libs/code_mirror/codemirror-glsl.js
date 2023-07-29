@@ -169,7 +169,7 @@ module.exports = function(CodeMirror, customFuncNames = '', customAtomNames ='')
       "mat4 vec2 vec3 vec4 ivec2 ivec3 ivec4 bvec2 bvec3 bvec4 sampler2D " +
       "samplerCube struct gl_FragCoord gl_FragColor";
     var glslBuiltins = "radians degrees sin cos tan asin acos atan pow " +
-      "exp log exp2 log2 sqrt inversesqrt abs sign floor ceil fract mod " +
+      "exp log exp2 log2 sqrt inversesqrt abs sign floor ceil round roundEven fract mod " +
       "min max clamp mix step smoothstep length distance dot cross " +
       "normalize faceforward reflect refract matrixCompMult lessThan " +
       "lessThanEqual greaterThan greaterThanEqual equal notEqual any all " +

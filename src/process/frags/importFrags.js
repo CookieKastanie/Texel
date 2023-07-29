@@ -1,5 +1,8 @@
 export const frags = new Array();
 
+import texture from './frag_texture';
+frags.push(...texture);
+
 import hsv from './frag_hsv';
 frags.push(...hsv);
 
@@ -14,3 +17,7 @@ frags.push(...rotations);
 
 import fxaa from './frag_fxaa';
 frags.push(...fxaa);
+
+import dither from './frag_dither';
+frags.push(...dither);
+

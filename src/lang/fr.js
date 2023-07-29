@@ -26,7 +26,7 @@ export default {
         vec3 pos;
     }
 
-Liste des variables/constantes :
+Variables et constantes :
 
     TextureInfos currentBuffer
     TextureInfos buffer[A..D]
@@ -40,12 +40,16 @@ Liste des variables/constantes :
     float HALF_PI
 
 
-Liste des fonctions additionnelles :
+Fonctions additionnelles :
 
     vec4 fxaa(TextureInfos, vec2)
 
     vec3 rgb2hsv(vec3)
     vec3 hsv2rgb(vec3)
+
+    vec3 dither[2,4,8](vec3, [float], [vec2])
+    vec3 quantify(vec3, float)
+    vec3 quantify2(vec3)
 
     mat2 rotate(float)
     mat3 rotateX(float)
