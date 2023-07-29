@@ -132,6 +132,8 @@ export class Process {
                 const layer = data.layers[i];
                 if(layer.fragment != '') {
                     Process.layers[i].setSavedFragment(layer.fragment);
+                    Process.layers[i].updateFragment();
+                    Process.layers[i].forceRender();
                     
                     if(i == Process.selectedLayerIndex) {
                         Editor.setValue(layer.fragment);

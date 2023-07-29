@@ -44,6 +44,7 @@ void main() {
         });
 
         this.shaderIsValid = true;
+        this.errorMessage = '';
         this.needUpdate = false;
         this.updateAt = 0;
         this.realTime = false;
@@ -69,6 +70,10 @@ void main() {
             this.needUpdate = true;
         });
         Editor.setValue(this.savedFragment);
+
+        if(this.shaderIsValid) Editor.displayNoError();
+        else Editor.displayError(this.errorMessage);
+
         this.needRender = true;
     }
 
@@ -126,31 +131,42 @@ void main() {
     }
 
     updateFragment() {
-        this.savedFragment = Editor.getValue();
+        this.needUpdate = false;
         this.shaderIsValid = this.shader.updateFragment(this.savedFragment);
-        if(this.shaderIsValid) {
-            this.realTime = this.shader.getUniformFlags().time || (this.currentCamera != this.defaultCamera);
 
-            if(!this.realTime) {
-                const flags = this.shader.getUniformFlags().buffers;
-                for(let i = 0; i < Process.layerNumber; ++i) {
-                    if(Process.layers[i].isRealTime() && flags[i]) {
-                        this.realTime = true;
-                        break;
-                    }
+        if(this.shaderIsValid == false) {
+            this.errorMessage = this.shader.getCurrentError();
+            return;
+        }
+
+        this.errorMessage = '';
+
+        this.realTime = this.shader.getUniformFlags().time || (this.currentCamera != this.defaultCamera);
+
+        if(this.realTime == false) {
+            const flags = this.shader.getUniformFlags().buffers;
+            for(let i = 0; i < Process.layerNumber; ++i) {
+                if(Process.layers[i].isRealTime() && flags[i]) {
+                    this.realTime = true;
+                    break;
                 }
             }
-
-            Editor.displayNoError();
         }
-        else Editor.displayError(this.shader.getCurrentError());
-        this.needUpdate = false;
     }
 
     update() {
-        if(this.needUpdate && Time.now > this.updateAt) {
-            this.updateFragment();
+        if(this.needUpdate == false || Time.now < this.updateAt) {
+            return;
+        }
+
+        this.savedFragment = Editor.getValue();
+        this.updateFragment();
+
+        if(this.shaderIsValid) {
+            Editor.displayNoError();
             this.needRender = true;
+        } else {
+            Editor.displayError(this.errorMessage);
         }
     }
 
