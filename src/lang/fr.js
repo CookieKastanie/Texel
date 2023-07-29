@@ -26,6 +26,12 @@ export default {
         vec3 pos;
     }
 
+    struct Mouse {
+        vec2 pos;
+        vec2 vel;
+        vec3 buttons;
+    }
+
 Variables et constantes :
 
     TextureInfos currentBuffer
@@ -33,6 +39,8 @@ Variables et constantes :
     TextureInfos tex[A..F]
 
     Camera camera
+
+    Mouse mouse
 
     float time
 

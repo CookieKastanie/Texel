@@ -35,6 +35,7 @@ SB.TIME = 'time';
 SB.PI = 'PI';
 SB.HALF_PI = 'HALF_PI';
 SB.CAMERA = 'camera';
+SB.MOUSE = 'mouse';
 
 SB.FUNCNAMES = (() => {
     let str = '';
@@ -62,6 +63,12 @@ struct Camera {
     vec3 pos;
 };
 
+struct Mouse {
+    vec2 pos;
+    vec2 vel;
+    vec3 buttons;
+};
+
 uniform TextureInfos ${SB.CURRENT_BUFFER};
 
 ${(() => {
@@ -85,6 +92,8 @@ ${(() => {
 uniform float ${SB.TIME};
 
 uniform Camera ${SB.CAMERA};
+
+uniform Mouse ${SB.MOUSE};
 
 const float ${SB.PI}      = 3.1415926535897932;
 const float ${SB.HALF_PI} = 1.5707963267948966;

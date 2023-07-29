@@ -6,6 +6,7 @@ import { Editor } from "../editor/Editor";
 import { Mesh } from "./Mesh";
 import { Process } from "./Process";
 import { ShaderLayer } from "./ShaderLayer";
+import { Mouse } from "akila/inputs";
 
 export class Layer {
     constructor(unit) {
@@ -53,6 +54,7 @@ void main() {
         this.unit = unit;
 
         this.vec2Buffer = new Float32Array([0, 0]);
+        this.vec3Buffer = new Float32Array([0, 0, 0]);
 
         this.defaultCamera = new NeutralCamera();
 
@@ -62,6 +64,8 @@ void main() {
 
         this.currentCamera = this.defaultCamera;
         this.currentMesh = Mesh.quad;
+
+        this.mouse = new Mouse();
     }
 
     bind() {
@@ -141,7 +145,10 @@ void main() {
 
         this.errorMessage = '';
 
-        this.realTime = this.shader.getUniformFlags().time || (this.currentCamera != this.defaultCamera);
+        this.realTime = 
+            this.shader.getUniformFlags().time ||
+            (this.currentCamera != this.defaultCamera) ||
+            this.shader.getUniformFlags().mouse;
 
         if(this.realTime == false) {
             const flags = this.shader.getUniformFlags().buffers;
@@ -222,6 +229,21 @@ void main() {
                 this.shader.sendMat4(`camera.view`, this.currentCamera.getCameraMatrix());
                 this.shader.sendMat4(`camera.projection`, this.currentCamera.getProjectionMatrix());
                 this.shader.sendVec3(`camera.pos`, this.currentCamera.getPosition());
+            }
+
+            if(this.shader.getUniformFlags().mouse) {
+                this.vec2Buffer[0] = this.mouse.posX();
+                this.vec2Buffer[1] = this.getHeight() - this.mouse.posY();
+                this.shader.sendVec2(`mouse.pos`, this.vec2Buffer);
+
+                this.vec2Buffer[0] = this.mouse.velX();
+                this.vec2Buffer[1] = -this.mouse.velY();
+                this.shader.sendVec2(`mouse.vel`, this.vec2Buffer);
+
+                this.vec3Buffer[0] = this.mouse.isPressed(Mouse.LEFT_BUTTON) * 1.0;
+                this.vec3Buffer[1] = this.mouse.isPressed(Mouse.WHEEL_BUTTON) * 1.0;
+                this.vec3Buffer[2] = this.mouse.isPressed(Mouse.RIGHT_BUTTON) * 1.0;
+                this.shader.sendVec3(`mouse.buttons`, this.vec3Buffer);
             }
 
             this.currentMesh.draw();

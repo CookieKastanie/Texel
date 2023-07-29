@@ -9,7 +9,8 @@ export class ShaderLayer extends Shader {
             time: false,
             buffers: new Array(SB.BUFFERCOUNT),
             textures: new Array(SB.TEXCOUNT),
-            camera: false
+            camera: false,
+            mouse: false
         };
 
         this.currentError = '';
@@ -91,7 +92,9 @@ export class ShaderLayer extends Shader {
             }
         }
 
-        this.uniformFlags.camera = this.cameraInfoUniformExist('camera');
+        this.uniformFlags.camera = this.cameraInfoUniformExist(SB.CAMERA);
+
+        this.uniformFlags.mouse = this.cameraInfoUniformExist(SB.MOUSE);
 
         this.currentError = '';
         return true;
@@ -138,6 +141,6 @@ ${(() => {
     }
 
     return str;
-})()} ${SB.CURRENT_BUFFER} ${SB.TIME} ${SB.PI} ${SB.HALF_PI} ${SB.CAMERA}`;
+})()} ${SB.CURRENT_BUFFER} ${SB.TIME} ${SB.PI} ${SB.HALF_PI} ${SB.CAMERA} ${SB.MOUSE}`;
 
 ShaderLayer.customFuncs = `${SB.FUNCNAMES}`;
