@@ -21,3 +21,5 @@ frags.push(...fxaa);
 import dither from './frag_dither';
 frags.push(...dither);
 
+import luma from './frag_luma';
+frags.push(...luma);

@@ -1,7 +1,7 @@
 import { Text } from "../../lang/Text";
 import { Process } from "../../process/Process";
+import { UI } from "../UI";
 import { UITools } from "../UITools";
-import { SizeSelector } from "./SizeSelector";
 
 import './TexturePanel.css';
 
@@ -25,7 +25,7 @@ export class TexturePanel {
             const imageSizeButton = UITools.create('button', {class: ['image-size-button', 'hidden']});
             imageSizeButton.addEventListener('click', () => {
                 Process.setSelectedLayerSize(img.naturalWidth, img.naturalHeight);
-                SizeSelector.refresh();
+                UI.call('refreshSize');
             });
 
             input.addEventListener('change', event => {

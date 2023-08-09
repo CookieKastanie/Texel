@@ -34,7 +34,7 @@ window.cmd = {
     },
     setLang: lang => {
         Text.setLanguage(lang);
-        UI.createMenus();
+        UI.createWidgets();
     },
     hardReset: () => {
         window.addEventListener('beforeunload', e => {

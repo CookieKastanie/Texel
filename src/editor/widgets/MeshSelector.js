@@ -10,17 +10,17 @@ export class MeshSelector {
         const selectorLabel = UITools.create('label', {text: Text.get('meshSelectorLabel')});
         container.appendChild(selectorLabel);
 
-        MeshSelector.selector = UITools.create('select');
-        MeshSelector.names = [Text.get('defaultMeshName'), Text.get('sphereMeshName'), Text.get('cubeMeshName'), Text.get('custom')];
-        for(let i = 0; i < MeshSelector.names.length; ++i) {
-            const option = UITools.create('option', {class: 'mesh-selector-option', text: MeshSelector.names[i]});
-            MeshSelector.selector.appendChild(option);
+        this.selector = UITools.create('select');
+        this.names = [Text.get('defaultMeshName'), Text.get('sphereMeshName'), Text.get('cubeMeshName'), Text.get('custom')];
+        for(let i = 0; i < this.names.length; ++i) {
+            const option = UITools.create('option', {class: 'mesh-selector-option', text: this.names[i]});
+            this.selector.appendChild(option);
         }
-        container.appendChild(MeshSelector.selector);
+        container.appendChild(this.selector);
 
-        MeshSelector.meshs = [Mesh.quad, Mesh.sphere, Mesh.cube, Mesh.custom];
-        MeshSelector.selector.addEventListener('change', () => {
-            Process.setSelectedLayerMesh(MeshSelector.meshs[MeshSelector.selector.selectedIndex]);
+        this.meshs = [Mesh.quad, Mesh.sphere, Mesh.cube, Mesh.custom];
+        this.selector.addEventListener('change', () => {
+            Process.setSelectedLayerMesh(this.meshs[this.selector.selectedIndex]);
         });
 
         ///////////////////////////////////////////////////////////
@@ -45,13 +45,13 @@ export class MeshSelector {
         container.appendChild(openMeshButton);
     }
 
-    static refresh() {
+    refreshMesh() {
         const l = Process.getSelectedLayer();
         const m = l.getMesh();
 
-        for(let i = 0; i < MeshSelector.meshs.length; ++i) {
-            if(MeshSelector.meshs[i] == m) {
-                MeshSelector.selector.selectedIndex = i;
+        for(let i = 0; i < this.meshs.length; ++i) {
+            if(this.meshs[i] == m) {
+                this.selector.selectedIndex = i;
             }
         }
     }

@@ -55,6 +55,8 @@ Additional functions :
     vec3 rgb2hsv(vec3)
     vec3 hsv2rgb(vec3)
 
+    float luma(vec[3,4])
+
     vec3 dither[2,4,8](vec3, [float], [vec2])
     vec3 quantify(vec3, float)
     vec3 quantify2(vec3)

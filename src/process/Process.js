@@ -32,11 +32,19 @@ export class Process {
 
         Process.textures = new Array();
         for(let i = 0; i < Process.textureNumber; ++i) {
-            Process.textures.push(new Texture(null, 1, 1).setParameters({flipY: true}).setUnit(i + Process.layerNumber));
+            const params = {
+                magFilter: Texture.LINEAR,
+                minFilter: Texture.LINEAR_MIPMAP_LINEAR,
+                wrapS: Texture.REPEAT,
+                wrapT: Texture.REPEAT,
+                flipY: true
+            }
+
+            Process.textures.push(new Texture(null, 1, 1).setParameters(params).setUnit(i + Process.layerNumber));
         }
 
         Process.selectLayer(0);
-        UI.createMenus();
+        UI.createWidgets();
 
         Process.loadLocalStorage();
 
@@ -69,7 +77,7 @@ export class Process {
             Process.selectedLayer.getWidth(),
             Process.selectedLayer.getHeight()
         );
-        UI.SizeSelector.refresh();
+        UI.call('refreshSize');
     }
 
     static setSelectedLayerMesh(mesh) {
@@ -78,6 +86,7 @@ export class Process {
 
     static updateTexture(index, img) {
         Process.textures[index].setTextureData(img);
+        Process.textures[index].generateMipmap();
 
         for(let i = 0; i < Process.layerNumber; ++i) {
             const b = Process.layers[i].shader.getUniformFlags().textures[index];
