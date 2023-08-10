@@ -177,6 +177,10 @@ export class Process {
     }
 
     static uploadPrograms(file) {
+        for(let i = 0; i < Process.layerNumber; ++i) {
+            Process.layers[i].resetUserUniforms();
+        }
+        
         Process.unserializePrograms(file);
     }
 

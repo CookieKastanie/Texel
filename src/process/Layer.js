@@ -152,6 +152,10 @@ void main() {
         }
     }
 
+    resetUserUniforms() {
+        this.userUniforms = new Object();
+    }
+
     setUseruniforms(unifs) {
         if(typeof unifs === 'object') {
             this.userUniforms = unifs;
