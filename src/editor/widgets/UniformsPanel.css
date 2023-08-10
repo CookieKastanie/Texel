@@ -1,5 +1,74 @@
 #uniforms-panel {
-	position: fixed;
+    user-select: none;
+    background: rgba(0, 0, 0, 0.2);
 }
 
+.uniform {
+    padding: 5px;
+    border-bottom: 2px solid #242424;
+}
 
+.uniform-name {
+    padding: 0 1em;
+}
+
+.uniform-header {
+    padding: 5px 0;
+}
+
+.uniform-values {
+    display: flex;
+    flex-direction: column;
+}
+
+.uniform-delete-btn {
+    float: right;
+    color: #f66;
+    border: 1px solid #f66;
+    font-weight: 700;
+}
+.uniform-delete-btn:disabled {
+    display: none;
+}
+.uniform-drop {
+    color: #EEE;
+    background: #555;
+    outline: none;
+    border: none;
+    cursor: pointer;
+    margin-left: 1px;
+    margin-bottom: -0.4em;
+}
+
+#uniforms-panel input {
+    margin: 5px;
+}
+
+#uniforms-panel input[type=range] {
+    appearance: none;
+    padding: 0;
+    outline: none;
+    cursor: pointer;
+    --thumb-color: #EEE;
+    --thumb-size: 14px;
+}
+
+#uniforms-panel input[type=range]::-moz-range-thumb  {
+    appearance: none;
+    width: var(--thumb-size);
+    height: var(--thumb-size);
+    border-radius: 10px;
+    background-color: var(--thumb-color);
+    overflow: visible;
+    cursor: pointer;
+}
+
+#uniforms-panel input[type=range]::-webkit-slider-thumb {
+    appearance: none;
+    width: var(--thumb-size);
+    height: var(--thumb-size);
+    border-radius: 50%;
+    background-color: var(--thumb-color);
+    overflow: visible;
+    cursor: pointer;
+}

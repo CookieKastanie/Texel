@@ -65,6 +65,7 @@ export class Process {
         );
 
         Process.selectedLayer.bind();
+        UI.call('refreshUniforms');
     }
 
     static getSelectedLayer() {
@@ -124,7 +125,8 @@ export class Process {
             data.layers.push({
                 width: layer.getWidth(),
                 height: layer.getHeight(),
-                fragment: layer.getSavedFragment()
+                fragment: layer.getSavedFragment(),
+                uniforms: layer.getUserUniforms()
             });
         }
 
@@ -141,6 +143,7 @@ export class Process {
                 const layer = data.layers[i];
                 if(layer.fragment != '') {
                     Process.layers[i].setSavedFragment(layer.fragment);
+                    Process.layers[i].setUseruniforms(layer.uniforms);
                     Process.layers[i].updateFragment();
                     Process.layers[i].forceRender();
                     

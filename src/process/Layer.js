@@ -7,6 +7,8 @@ import { Mesh } from "./Mesh";
 import { Process } from "./Process";
 import { ShaderLayer } from "./ShaderLayer";
 import { Mouse } from "akila/inputs";
+import { UniformsUtils } from "./UniformsUtils";
+import { UI } from "../editor/UI";
 
 export class Layer {
     constructor(unit) {
@@ -51,6 +53,8 @@ void main() {
         this.realTime = false;
         this.needRender = true;
 
+        this.userUniforms = new Object();
+
         this.unit = unit;
 
         this.vec2Buffer = new Float32Array([0, 0]);
@@ -69,11 +73,14 @@ void main() {
     }
 
     bind() {
+        Editor.onchange(() => {}); // unbind to prevent useless compilation
+
+        Editor.setValue(this.savedFragment);
+
         Editor.onchange(() => {
             this.updateAt = Time.now + Layer.changeDelta;
             this.needUpdate = true;
         });
-        Editor.setValue(this.savedFragment);
 
         if(this.shaderIsValid) Editor.displayNoError();
         else Editor.displayError(this.errorMessage);
@@ -134,6 +141,23 @@ void main() {
         this.controleCamera.setSize(width, height);
     }
 
+    getUserUniforms() {
+        return this.userUniforms;
+    }
+
+    deleteUserUniform(name) {
+        if(this.userUniforms[name].active === false) {
+            delete this.userUniforms[name];
+            UI.call('refreshUniforms');
+        }
+    }
+
+    setUseruniforms(unifs) {
+        if(typeof unifs === 'object') {
+            this.userUniforms = unifs;
+        }
+    }
+
     updateFragment() {
         this.needUpdate = false;
         this.shaderIsValid = this.shader.updateFragment(this.savedFragment);
@@ -161,6 +185,31 @@ void main() {
         }
     }
 
+    updateAvailableUniforms() {
+        const unifInfos = this.shader.getUniformsInfos();
+
+        for(let unifName in this.userUniforms) {
+            this.userUniforms[unifName].active = false;
+        }
+
+        for(let unifName in unifInfos) {
+            const unif = UniformsUtils.parseShaderUnif(unifInfos[unifName]);
+
+            if(unif === null) {
+                continue;
+            }
+
+            const uUnif = this.userUniforms[unifName];
+            if(!uUnif || 
+                (uUnif.type != unif.type || uUnif.size != unif.size || uUnif.length != unif.length)
+            ) {
+                this.userUniforms[unifName] = unif;
+            }
+
+            this.userUniforms[unifName].active = true;
+        }
+    }
+
     update() {
         if(this.needUpdate == false || Time.now < this.updateAt) {
             return;
@@ -170,8 +219,11 @@ void main() {
         this.updateFragment();
 
         if(this.shaderIsValid) {
+            this.updateAvailableUniforms();
             Editor.displayNoError();
             this.needRender = true;
+
+            UI.call('refreshUniforms');
         } else {
             Editor.displayError(this.errorMessage);
         }
@@ -244,6 +296,30 @@ void main() {
                 this.vec3Buffer[1] = this.mouse.isPressed(Mouse.WHEEL_BUTTON) * 1.0;
                 this.vec3Buffer[2] = this.mouse.isPressed(Mouse.RIGHT_BUTTON) * 1.0;
                 this.shader.sendVec3(`mouse.buttons`, this.vec3Buffer);
+            }
+
+            for(const unifName in this.userUniforms) {
+                const unif = this.userUniforms[unifName];
+
+                if(unif.active !== true) {
+                    continue;
+                }
+
+                if(unif.value.length > 4) {
+                    continue;
+                }
+
+                let buffer;
+                let type;
+                if(unif.type === 'INT') {
+                    buffer = new Int32Array(unif.value);
+                    type = 'INT';
+                } else {
+                    buffer = new Float32Array(unif.value);
+                    type = 'FLOAT';
+                }
+
+                this.shader.send(unifName, buffer, type, unif.value.length - 1);
             }
 
             this.currentMesh.draw();

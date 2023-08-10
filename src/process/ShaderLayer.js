@@ -97,6 +97,18 @@ export class ShaderLayer extends Shader {
         this.uniformFlags.mouse = this.cameraInfoUniformExist(SB.MOUSE);
 
         this.currentError = '';
+
+        // delete built in uniform infos
+        delete this.uniformInfos['PV'];
+        for(let k in this.uniformInfos) {
+            for(let unif of ShaderLayer.customAtomsList) {
+                if(k.startsWith(unif) || k.startsWith(`${unif}.`)) {
+                    delete this.uniformInfos[k];
+                    break;
+                }
+            }
+        }
+
         return true;
     }
 
@@ -117,30 +129,25 @@ export class ShaderLayer extends Shader {
         return shader;
     }
 
-    // @override
-    initUniformLocation(nom){
-        nom = nom.replace(/\[0\]/,'');
-        
-        const pointer = Display.ctx.getUniformLocation(this.program, nom);
-        if(pointer) this.uniformList[nom] = pointer;
+    send(name, value, type, length) {
+        ShaderLayer.sendFuncMatrix[type][length].bind(this)(name, value);
     }
 }
 
-ShaderLayer.customAtoms = `
-${(() => {
-    let str = '';
-    for(let i = 0; i < SB.BUFFERCOUNT; ++i) {
-        str += ` ${SB.BUFFER}${SB.ALPHABET[i]}`;
-    }
+ShaderLayer.customAtomsList = new Array();
+for(let i = 0; i < SB.BUFFERCOUNT; ++i) {
+    ShaderLayer.customAtomsList.push(`${SB.BUFFER}${SB.ALPHABET[i]}`);
+}
+for(let i = 0; i < SB.BUFFERCOUNT; ++i) {
+    ShaderLayer.customAtomsList.push(`${SB.TEX}${SB.ALPHABET[i]}`);
+}
+ShaderLayer.customAtomsList.push(SB.CURRENT_BUFFER, SB.TIME, SB.PI, SB.HALF_PI, SB.CAMERA, SB.MOUSE);
 
-    return str;
-})()}${(() => {
-    let str = '';
-    for(let i = 0; i < SB.TEXCOUNT; ++i) {
-        str += ` ${SB.TEX}${SB.ALPHABET[i]}`;
-    }
-
-    return str;
-})()} ${SB.CURRENT_BUFFER} ${SB.TIME} ${SB.PI} ${SB.HALF_PI} ${SB.CAMERA} ${SB.MOUSE}`;
+ShaderLayer.customAtoms = ShaderLayer.customAtomsList.join(' ');
 
 ShaderLayer.customFuncs = `${SB.FUNCNAMES}`;
+
+ShaderLayer.sendFuncMatrix = {
+    FLOAT: [Shader.prototype.sendFloat, Shader.prototype.sendVec2, Shader.prototype.sendVec3, Shader.prototype.sendVec4],
+    INT: [Shader.prototype.sendInt, Shader.prototype.sendIVec2, Shader.prototype.sendIVec3, Shader.prototype.sendIVec4]
+}

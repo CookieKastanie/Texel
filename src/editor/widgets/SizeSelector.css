@@ -1,12 +1,8 @@
 #size-selector {
     margin: 0 1em;
 }
+
 #size-selector input {
     width: 4em;
-
     margin: 0 4px;
-    background-color: rgba(255, 255, 255, 0.1);
-    color: #EEE;
-    border: 1px solid #EEE;
-    border-radius: 3px;
 }

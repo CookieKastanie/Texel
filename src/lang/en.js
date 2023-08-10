@@ -5,7 +5,7 @@ export default {
     saveImage: 'Save image',
     textureLabel: 'Textures',
     bufferSelectorLabel: 'Current buffer :',
-    size: 'SIze :',
+    size: 'Size :',
     width: 'Width :',
     height: 'Height :',
     apply: 'Apply',
@@ -74,5 +74,9 @@ Additional functions :
     defaultMeshName: 'Default',
     sphereMeshName: 'Sphere',
     cubeMeshName: 'Cube',
-    custom: 'Custom'
+    custom: 'Custom',
+    uniforms: 'Uniforms',
+    number: 'Number',
+    range: 'Range',
+    color: 'Color'
 }

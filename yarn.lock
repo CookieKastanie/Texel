@@ -273,10 +273,10 @@ ajv@^6.1.0, ajv@^6.12.4, ajv@^6.12.5:
     json-schema-traverse "^0.4.1"
     uri-js "^4.2.2"
 
-akila@^0.1.4:
-  version "0.1.4"
-  resolved "https://registry.yarnpkg.com/akila/-/akila-0.1.4.tgz#38443200773af91b838c17ca8ee9cfc2c4baedba"
-  integrity sha512-ZlncGMaPZL8EuxeIXgXZp7rTtQAGR6lCUikqxtRFcJl295dlzpa5W+XZHSQ0t1S212pS6oFWOFHp3SfQ19sKvw==
+akila@^0.1.5:
+  version "0.1.5"
+  resolved "https://registry.yarnpkg.com/akila/-/akila-0.1.5.tgz#b23230bbdbae2d0b908c352e5376a65b3e63556b"
+  integrity sha512-OyfnafQMG48YD0ADzDwGdFmZ3FGhg6iEP6lnyKrXUrl46HFIjIsHCc17r2iWXkYW8iGijYbrZb8J4tkbvFPPxA==
 
 alphanum-sort@^1.0.0:
   version "1.0.2"
