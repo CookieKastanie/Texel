@@ -75,7 +75,7 @@ Additional functions :
     sphereMeshName: 'Sphere',
     cubeMeshName: 'Cube',
     custom: 'Custom',
-    uniforms: 'Uniforms',
+    uniformsTitle: 'Uniforms :',
     number: 'Number',
     range: 'Range',
     color: 'Color'

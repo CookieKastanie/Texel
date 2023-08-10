@@ -273,7 +273,7 @@ const Split = (idsOption, options = {}) => {
         const a = elements[this.a]
         const b = elements[this.b]
 
-        if (!this.dragging) return
+        if (!this.dragging || !a.draggable || !b.draggable) return
 
         // Get the offset of the event from the first side of the
         // pair `this.start`. Then offset by the initial position of the
@@ -683,6 +683,8 @@ const Split = (idsOption, options = {}) => {
                 element.minSize = computedSize
             }
         }
+
+        element.draggable = true;
     })
 
     function setSizes(newSizes) {

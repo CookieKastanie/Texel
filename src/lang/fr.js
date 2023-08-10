@@ -75,7 +75,7 @@ Fonctions additionnelles :
     sphereMeshName: 'Sphère',
     cubeMeshName: 'Cube',
     custom: 'Perso*',
-    uniforms: 'Uniformes',
+    uniformsTitle: 'Uniformes :',
     number: 'Nombre',
     range: 'Glissière',
     color: 'Couleur'

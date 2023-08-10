@@ -19,13 +19,15 @@ const colorToHexString = (r, g, b) => {
 
 export class UniformsPanel {
     constructor(container) {
-        const p = UITools.create('p', {text: Text.get('uniforms')});
+        this.uniformsHeader = UITools.create('div', {class: 'hidden'});
+
+        const p = UITools.create('p', {class: 'uniforms-title', text: Text.get('uniformsTitle')});
+        this.uniformsHeader.appendChild(p);
 
         this.uniformContainer = UITools.create('div');
 
-        container.appendChild(p);
+        container.appendChild(this.uniformsHeader);
         container.appendChild(this.uniformContainer);
-        this.mainContainer = container;
     }
 
     createDrop(options) {
@@ -184,16 +186,19 @@ export class UniformsPanel {
         const uniforms = layer.getUserUniforms();
 
         if(Object.keys(uniforms).length === 0) {
-            this.mainContainer.classList.add('hidden');
-            console.log('hide')
+            this.uniformsHeader.classList.add('hidden');
+            UI.firstGlutter.classList.add('gluter-disable');
+
             UI.split.elements[0].minSize = 0;
+            UI.split.elements[0].draggable = false;
             UI.split.collapse(0);
-            //UI.split.set
-        } else {
-            this.mainContainer.classList.remove('hidden');
-            UI.split.elements[0].minSize = 200;
+        } else if(this.uniformsHeader.classList.contains('hidden')) {
+            this.uniformsHeader.classList.remove('hidden');
+            UI.firstGlutter.classList.remove('gluter-disable');
+
+            UI.split.elements[0].minSize = UI.split.defaultMineSize;
+            UI.split.elements[0].draggable = true;
             UI.split.collapse(0);
-            console.log('show')
         }
 
         for(const unifName in uniforms) {
