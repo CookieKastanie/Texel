@@ -23,3 +23,6 @@ frags.push(...dither);
 
 import luma from './frag_luma';
 frags.push(...luma);
+
+import miscellaneous from './frag_miscellaneous';
+frags.push(...miscellaneous);

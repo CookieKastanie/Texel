@@ -37,17 +37,13 @@ window.cmd = {
         UI.createWidgets();
     },
     hardReset: () => {
-        window.addEventListener('beforeunload', e => {
-            e.stopPropagation();
-            localStorage.clear();
-        }, true);
-        location.reload();
+        Process.resetAll();
     },
     record: (format, duration, fps) => {
         Process.record(format, duration, fps);
     },
-    programsToClipboard: () => {
-        Process.programsToB64URLCLipboard();
+    programsToClipboard: (short) => {
+        Process.programsToB64URLCLipboard(short);
     }
 }
 

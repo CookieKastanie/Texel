@@ -40,6 +40,18 @@ export class FileOptions {
         });
         dropdown.appendChild(saveImageButton);
 
+        /////////////////////////////////////
+
+        const resetButton = UITools.create('button', {text: Text.get('resetAll')});
+        resetButton.addEventListener('click', () => {
+            if(window.confirm(Text.get('confirmResetAll')) !== true) {
+                return;
+            } 
+
+            Process.resetAll();
+        });
+        dropdown.appendChild(resetButton);
+
         conatainer.appendChild(fileOptionsButton);
         conatainer.appendChild(dropdown);
     }

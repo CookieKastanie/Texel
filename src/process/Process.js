@@ -88,11 +88,23 @@ export class Process {
     static updateTexture(index, img) {
         Process.textures[index].setTextureData(img);
         Process.textures[index].generateMipmap();
+        Process.forceRenderLayerWithTexture(index);
+    }
 
+    static forceRenderLayerWithTexture(index) {
         for(let i = 0; i < Process.layerNumber; ++i) {
             const b = Process.layers[i].shader.getUniformFlags().textures[index];
             if(b) Process.layers[i].forceRender();
         }
+    }
+
+    static getTextureParams(index) {
+        return Process.textures[index].getParameters();
+    }
+
+    static setTextureParams(index, params) {
+        Process.textures[index].setParameters(params);
+        Process.forceRenderLayerWithTexture(index);
     }
 
     static update() {
@@ -116,7 +128,8 @@ export class Process {
         const data = {
             glsl: SB.VERSION,
             date: new Date(),
-            layers: []
+            layers: [],
+            textures: []
         }
 
         for(let i = 0; i < Process.layerNumber; ++i) {
@@ -130,6 +143,11 @@ export class Process {
             });
         }
 
+        for(let i = 0; i < Process.textureNumber; ++i) {
+            const texture = Process.textures[i];
+            data.textures.push({parameters: texture.getParameters()});
+        }
+
         return JSON.stringify(data);
     }
 
@@ -137,11 +155,12 @@ export class Process {
         try {
             const data = JSON.parse(textFile);
 
-            if(data.glsl !== SB.VERSION) console.warn('File GLSL version differs from that of the application')
+            if(data.glsl !== SB.VERSION) console.warn('File GLSL version differs from that of the application');
 
+            if(Array.isArray(data.layers))
             for(let i = 0; i < Math.min(data.layers.length, Process.layerNumber); ++i) {
                 const layer = data.layers[i];
-                if(layer.fragment != '') {
+                if(layer.fragment && typeof layer.fragment === 'string') {
                     Process.layers[i].setSavedFragment(layer.fragment);
                     Process.layers[i].setUseruniforms(layer.uniforms);
                     Process.layers[i].updateFragment();
@@ -155,9 +174,17 @@ export class Process {
                     }
                 }
             }
+
+            if(Array.isArray(data.textures))
+            for(let i = 0; i < Math.min(data.textures.length, Process.textureNumber); ++i) {
+                const texture = Process.textures[i];
+                texture.setParameters(data.textures[i].parameters);
+            }
+            UI.call('refreshTextureParameters');
+            
         } catch(e) {
             console.error(e);
-        } 
+        }
     }
 
     static saveToLocalStorage() {
@@ -193,6 +220,15 @@ export class Process {
         }
     }
 
+    static resetAll() {
+        window.addEventListener('beforeunload', e => {
+            e.stopPropagation();
+            localStorage.clear();
+        }, true);
+
+        location.reload();
+    }
+
     static record(format, duration, fps) {
         if(Process.recorder.isRecording()) {
             console.warn('You are already recording');
@@ -216,8 +252,18 @@ export class Process {
         Process.recorder.record(duration, fps);
     }
 
-    static programsToB64URLCLipboard() {
-        const json = Process.serializePrograms();
+    static programsToB64URLCLipboard(short = false) {
+        let json = Process.serializePrograms();
+
+        if(short) {
+            json = JSON.parse(json);
+            delete json.date;
+            delete json.textures;
+            json.layers = [json.layers[0]];
+            console.log(json)
+            json = JSON.stringify(json);
+        }
+
         const b64 = window.btoa(json);
 
         const href = window.location.origin + window.location.pathname;

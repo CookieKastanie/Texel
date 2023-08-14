@@ -3,6 +3,8 @@ export default {
     import: 'Import',
     export: 'Export',
     saveImage: 'Save image',
+    confirmResetAll: 'Are you sure you want to delete everything?',
+    resetAll: 'Reset all',
     textureLabel: 'Textures',
     bufferSelectorLabel: 'Current buffer :',
     size: 'Size :',
