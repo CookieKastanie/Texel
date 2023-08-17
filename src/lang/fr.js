@@ -1,8 +1,9 @@
 export default {
     fileOptions: 'Fichier',
     import: 'Importer',
-    export: 'Exporter',
-    saveImage: 'Sauvegarder l\'image',
+    openFile: 'Ouvrir',
+    saveAs: 'Enregistrer sous...',
+    exportImage: 'Exporter l\'image...',
     confirmResetAll: 'Voulez-vous vraiment tout supprimer ?',
     resetAll: 'Tout supprimer',
     textureLabel: 'Textures',

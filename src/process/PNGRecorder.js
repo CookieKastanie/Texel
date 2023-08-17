@@ -45,7 +45,7 @@ export class PNGRecorder extends Recorder {
             this.recording = false;
 
             downloadZip(this.frames).blob().then(blob => {
-                Downloader.blob('result.zip', blob);
+                Downloader.data(blob, {name: 'result', extension: 'zip', mimetype: 'application/zip'});
                 console.log(`ffmpeg -framerate ${1 / (this.delta / 1000)} -i %04d.png output.webm`);
             }).catch(console.error);
         }

@@ -1,8 +1,9 @@
 export default {
     fileOptions: 'File',
     import: 'Import',
-    export: 'Export',
-    saveImage: 'Save image',
+    openFile: 'Open',
+    saveAs: 'Save as...',
+    exportImage: 'Export image...',
     confirmResetAll: 'Are you sure you want to delete everything?',
     resetAll: 'Reset all',
     textureLabel: 'Textures',

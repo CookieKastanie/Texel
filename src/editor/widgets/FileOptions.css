@@ -1,21 +1,31 @@
 #file-options {
-    padding: 0 1em;
+    padding: 0 10px;
 }
 
 .file-options-button {
     padding: 0 10px;
+    position: relative;
+    text-decoration: underline;
+    cursor: pointer;
 }
 
 .file-options-content {
     display: none;
     position: absolute;
     background: #222;
-    padding: 5px 10px;
+    padding: 10px 0;
     z-index: 10;
+    top: 2em;
 }
 
-.file-options-content * {
+.file-options-content span {
+    padding: 0 10px;
     display: block;
+}
+
+.file-options-content span:hover {
+    cursor: pointer;
+    background-color: #333;
 }
 
 .file-options-button:hover + .file-options-content {

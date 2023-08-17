@@ -6,26 +6,30 @@ import './FileOptions.css';
 
 export class FileOptions {
     constructor(conatainer) {
-        const fileOptionsButton = UITools.create('button', {class: 'file-options-button', text: Text.get('fileOptions')});
+        const fileOptionsButton = UITools.create('p', {class: 'file-options-button', text: Text.get('fileOptions')});
 
         const dropdown = UITools.create('div', {class: 'file-options-content'});
 
-        const importinput = UITools.create('input', {value: Text.get('import'), type: 'file', accept: '.txl'});
-        importinput.addEventListener('change', event => {
-            const input = event.target;
-            if(input.files && input.files[0]) {
-                const reader = new FileReader();
-                reader.onload = e => {
-                    Process.uploadPrograms(e.target.result);
-                };
-                reader.readAsText(input.files[0]);
-            }
+        const importinput = UITools.create('span', {text: Text.get('openFile')});
+        importinput.addEventListener('click', () => {
+            const file = UITools.create('input', {type: 'file', accept: '.txl'});
 
-            input.value = null;
+            file.addEventListener('change', event => {
+                const input = event.target;
+                if(input.files && input.files[0]) {
+                    const reader = new FileReader();
+                    reader.onload = e => {
+                        Process.uploadPrograms(e.target.result);
+                    };
+                    reader.readAsText(input.files[0]);
+                }
+            });
+
+            file.click();
         });
         dropdown.appendChild(importinput);
 
-        const exportButton = UITools.create('button', {text: Text.get('export')});
+        const exportButton = UITools.create('span', {text: Text.get('saveAs')});
         exportButton.addEventListener('click', () => {
             Process.downloadPrograms();
         });
@@ -34,7 +38,7 @@ export class FileOptions {
 
         /////////////////////////////////////
 
-        const saveImageButton = UITools.create('button', {text: Text.get('saveImage')});
+        const saveImageButton = UITools.create('span', {text: Text.get('exportImage')});
         saveImageButton.addEventListener('click', () => {
             Process.saveCurrentImage();
         });
@@ -42,7 +46,7 @@ export class FileOptions {
 
         /////////////////////////////////////
 
-        const resetButton = UITools.create('button', {text: Text.get('resetAll')});
+        const resetButton = UITools.create('span', {text: Text.get('resetAll')});
         resetButton.addEventListener('click', () => {
             if(window.confirm(Text.get('confirmResetAll')) !== true) {
                 return;

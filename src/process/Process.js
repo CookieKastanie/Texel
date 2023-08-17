@@ -199,8 +199,8 @@ export class Process {
         }
     }
 
-    static downloadPrograms(fileName = 'program.txl') {
-        Downloader.text(fileName, Process.serializePrograms());
+    static downloadPrograms(fileName = 'program') {
+        Downloader.texel(fileName, Process.serializePrograms());
     }
 
     static uploadPrograms(file) {
@@ -211,7 +211,7 @@ export class Process {
         Process.unserializePrograms(file);
     }
 
-    static saveCurrentImage(fileName = 'render.png') {
+    static saveCurrentImage(fileName = 'render') {
         // A changer
         Process.layers[Process.selectedLayerIndex].forceRender();
         Process.afterDraw = () => {

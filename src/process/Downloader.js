@@ -1,41 +1,67 @@
 export class Downloader {
-    static data(filename = 'download', type = Downloader.TEXT, data) {
-        const element = document.createElement('a');
+    static async data(blob, options = {}) {
+        options.name ??= 'download';
+        options.extension ??= 'txt';
+        options.mimetype ??= 'text/plain';
 
-        switch(type) {
-            case Downloader.BLOB:
-            case Downloader.IMAGE:
-                element.setAttribute('href', data);
-                break;
-
-            default:
-                element.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(data));
-                break;
+        // Feature detection. The API needs to be supported
+        // and the app not run in an iframe.
+        const supportsFileSystemAccess =
+        'showSaveFilePicker' in window &&
+        (() => {
+        try {
+            return window.self === window.top;
+        } catch {
+            return false;
         }
-        
-        element.setAttribute('download', filename);
+        })();
 
-        element.style.display = 'none';
-        document.body.appendChild(element);
+        if (supportsFileSystemAccess) {
+            try {
+                const accept = {};
+                accept[options.mimetype] = [`.${options.extension}`];
+                const handle = await showSaveFilePicker({
+                    suggestedName: options.name,
+                    types: [{accept}]
+                });
 
-        element.click();
+                const writable = await handle.createWritable();
+                await writable.write(blob);
+                await writable.close();
+                return;
+            } catch (err) {
+                return;
+            }
+        }
 
-        document.body.removeChild(element);
+        // Fallback if the File System Access API is not supported…
+        const blobUrl = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = blobUrl
+        a.download = `${options.name}.${options.extension}`;
+        a.style.display = 'none';
+        document.body.append(a);
+        a.click();
+        document.body.removeChild(a);
+        URL.revokeObjectURL(blobUrl);
+    } 
+
+    static async text(name, text) {
+        const blob = new Blob([text], {type: 'text/plain'});
+        await Downloader.data(blob, {name});
     }
 
-    static text(filename, text) {
-        Downloader.data(filename, Downloader.TEXT, text);
+    static async texel(name, text) {
+        const blob = new Blob([text], {type: 'text/plain'});
+        await Downloader.data(blob, {name, extension: 'txl', mimetype: 'texel/plain'});
     }
 
-    static canvasImage(filename, canvas) {
-        Downloader.data(filename, Downloader.IMAGE, canvas.toDataURL('image/png'));
-    }
-
-    static blob(filename, blob) {
-        Downloader.data(filename, Downloader.BLOB, URL.createObjectURL(blob));
+    static async canvasImage(name, canvas) {
+        return new Promise(resolve => {
+            canvas.toBlob(async blob => {
+                await Downloader.data(blob, {name, extension: 'png', mimetype: 'image/png'});
+                resolve();
+            }, 'image/png', 1);
+        });
     }
 }
-
-Downloader.TEXT = 'TEXT';
-Downloader.IMAGE = 'IMAGE';
-Downloader.BLOB = 'BLOB';
