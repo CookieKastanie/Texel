@@ -24,8 +24,8 @@ export class TexturePanel {
 
         this.parametersModals = new Array(Process.textureNumber);
         for(let i = 0; i < Process.textureNumber; ++i) {
-            const imageHolder = UITools.create('div', {class: ['flex', 'imageHolder']});
-            const label = UITools.create('label', {class: 'textureLabel'});
+            const imageHolder = UITools.create('div', {class: ['flex', 'image-holder']});
+            const label = UITools.create('label', {class: 'texture-input-label'});
             const input = UITools.create('input', {type: 'file', accept: 'image/*'});
             const img = UITools.create('img', {src: './img/placeholder.png', alt: 'placeholder'});
 
@@ -59,9 +59,9 @@ export class TexturePanel {
 
             label.appendChild(input);
             label.appendChild(img);
-            label.appendChild(imageSizeButton);
-            label.appendChild(this.parametersModals[i]);
             imageHolder.appendChild(label);
+            imageHolder.appendChild(imageSizeButton);
+            imageHolder.appendChild(this.parametersModals[i]);
             texturePanel.appendChild(imageHolder);
         }
     }
@@ -77,25 +77,25 @@ export class TexturePanel {
         const parametersContent = UITools.create('div', {class: 'texture-parameters'});
         parametersButton.appendChild(parametersContent);
 
-        const minFilterLabel = UITools.create('label', {for: `min-filter-tex-${index}`, text: 'Min filter : '});
+        const minFilterLabel = UITools.create('label', {for: `min-filter-tex-${index}`, text: Text.get('minFilter')});
         const minFilterSelect = UITools.create('select', {id: `min-filter-tex-${index}`});
         parametersContent.appendChild(minFilterLabel);
         parametersContent.appendChild(minFilterSelect);
         
 
-        const magFilterLabel = UITools.create('label', {for: `mag-filter-tex-${index}`, text: 'Mag filter : '});
+        const magFilterLabel = UITools.create('label', {for: `mag-filter-tex-${index}`, text: Text.get('magFilter')});
         const magFilterSelect = UITools.create('select', {id: `mag-filter-tex-${index}`});
         parametersContent.appendChild(magFilterLabel);
         parametersContent.appendChild(magFilterSelect);
 
 
-        const wrapSLabel = UITools.create('label', {for: `wrap-s-tex-${index}`, text: 'Wrap S : '});
+        const wrapSLabel = UITools.create('label', {for: `wrap-s-tex-${index}`, text: Text.get('wrapS')});
         const wrapSSelect = UITools.create('select', {id: `wrap-s-tex-${index}`});
         parametersContent.appendChild(wrapSLabel);
         parametersContent.appendChild(wrapSSelect);
 
 
-        const wrapTLabel = UITools.create('label', {for: `wrap-t-tex-${index}`, text: 'Wrap T : '});
+        const wrapTLabel = UITools.create('label', {for: `wrap-t-tex-${index}`, text: Text.get('wrapT')});
         const wrapTSelect = UITools.create('select', {id: `wrap-t-tex-${index}`});
         parametersContent.appendChild(wrapTLabel);
         parametersContent.appendChild(wrapTSelect);
@@ -111,30 +111,40 @@ export class TexturePanel {
             Process.setTextureParams(index, params);
         }
 
+        const filterText = (text) => {
+            const arr = text.toLocaleLowerCase().split('_');
+
+            for (var i = 0; i < arr.length; i++) {
+                arr[i] = arr[i].charAt(0).toUpperCase() + arr[i].slice(1);
+            }
+
+            return arr.join(' ');
+        }
+
         minFilterSelect.addEventListener('change', changeCallback);
         for(const opt of paramsOptions.minFilter) {
-            const filterOption = UITools.create('option', {value: opt, text: opt});
+            const filterOption = UITools.create('option', {value: opt, text: filterText(opt)});
             filterOption.selected = opt === params.minFilter;
             minFilterSelect.appendChild(filterOption);
         }
 
         magFilterSelect.addEventListener('change', changeCallback);
         for(const opt of paramsOptions.magFilter) {
-            const filterOption = UITools.create('option', {value: opt, text: opt});
+            const filterOption = UITools.create('option', {value: opt, text: filterText(opt)});
             filterOption.selected = opt === params.magFilter;
             magFilterSelect.appendChild(filterOption);
         }
 
         wrapSSelect.addEventListener('change', changeCallback);
         for(const opt of paramsOptions.wrap) {
-            const filterOption = UITools.create('option', {value: opt, text: opt});
+            const filterOption = UITools.create('option', {value: opt, text: filterText(opt)});
             filterOption.selected = opt === params.wrapS;
             wrapSSelect.appendChild(filterOption);
         }
 
         wrapTSelect.addEventListener('change', changeCallback);
         for(const opt of paramsOptions.wrap) {
-            const filterOption = UITools.create('option', {value: opt, text: opt});
+            const filterOption = UITools.create('option', {value: opt, text: filterText(opt)});
             filterOption.selected = opt === params.wrapT;
             wrapTSelect.appendChild(filterOption);
         }

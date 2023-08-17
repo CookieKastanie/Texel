@@ -13,6 +13,19 @@ export default {
     apply: 'Apply',
     noError: 'No error.',
     help: 'Help',
+    meshSelectorLabel: 'Mesh :',
+    defaultMeshName: 'Default',
+    sphereMeshName: 'Sphere',
+    cubeMeshName: 'Cube',
+    custom: 'Custom',
+    uniformsTitle: 'Uniforms :',
+    number: 'Number',
+    range: 'Range',
+    color: 'Color',
+    minFilter: 'Min filter :',
+    magFilter: 'Mag filter :',
+    wrapS: 'Wrap S :',
+    wrapT: 'Wrap T :',
     helpText:
 `Specific types :
 
@@ -71,14 +84,5 @@ Additional functions :
     float snoise(vec[2,3,4])
     float voronoi(vec2, float, float)
     vec3 voronoiDist(vec2, float)
-`,
-    meshSelectorLabel: 'Mesh :',
-    defaultMeshName: 'Default',
-    sphereMeshName: 'Sphere',
-    cubeMeshName: 'Cube',
-    custom: 'Custom',
-    uniformsTitle: 'Uniforms :',
-    number: 'Number',
-    range: 'Range',
-    color: 'Color'
+`
 }
