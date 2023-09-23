@@ -73,6 +73,8 @@ Fonctions additionnelles :
 
     float luma(vec[3,4])
 
+    vec3 unpackNormalMap(vec[2,3,4])
+
     vec3 dither[2,4,8](vec3, [float], [vec2])
     vec3 quantify(vec3, float)
     vec3 quantify2(vec3)
