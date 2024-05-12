@@ -12,7 +12,7 @@ import { UniformsPanel } from "./widgets/UniformsPanel";
 
 export class UI {
     static init() {
-        Text.init();
+        Text.init(navigator.language || navigator.userLanguage);
         Editor.init(document.getElementById('code-inject'));
         UI.split = split(['#uniforms-panel', '#result-panel', '#code-panel'], {
             sizes: [0, 67, 33],
