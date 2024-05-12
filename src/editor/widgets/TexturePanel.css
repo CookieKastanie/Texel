@@ -25,6 +25,7 @@
     width: 100vw;
     background: rgba(0,0,0,0.4);
     content: "";
+    z-index: 10;
 }
 .texture-input-label {
     position: relative;
@@ -110,4 +111,10 @@
     padding: 0px 5px 2px 5px;
     border: 1px solid #EEE;
     border-radius: 3px;
+}
+
+.texture-letter-button {
+    position: absolute;
+    top: 10px;
+    left: 20px;
 }

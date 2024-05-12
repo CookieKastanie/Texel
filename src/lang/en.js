@@ -7,7 +7,7 @@ export default {
     confirmResetAll: 'Are you sure you want to delete everything?',
     resetAll: 'Reset all',
     textureLabel: 'Textures',
-    bufferSelectorLabel: 'Current buffer :',
+    bufferSelectorLabel: 'Buffer :',
     size: 'Size :',
     width: 'Width :',
     height: 'Height :',

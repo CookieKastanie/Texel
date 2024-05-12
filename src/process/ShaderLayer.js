@@ -138,7 +138,7 @@ ShaderLayer.customAtomsList = new Array();
 for(let i = 0; i < SB.BUFFERCOUNT; ++i) {
     ShaderLayer.customAtomsList.push(`${SB.BUFFER}${SB.ALPHABET[i]}`);
 }
-for(let i = 0; i < SB.BUFFERCOUNT; ++i) {
+for(let i = 0; i < SB.TEXCOUNT; ++i) {
     ShaderLayer.customAtomsList.push(`${SB.TEX}${SB.ALPHABET[i]}`);
 }
 ShaderLayer.customAtomsList.push(SB.CURRENT_BUFFER, SB.TIME, SB.PI, SB.HALF_PI, SB.CAMERA, SB.MOUSE);

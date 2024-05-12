@@ -3,6 +3,7 @@ import { Process } from "../../process/Process";
 import { UI } from "../UI";
 import { UITools } from "../UITools";
 import { Texture } from "akila/webgl";
+import { Clipboard } from "../../process/Clipboard";
 
 import './TexturePanel.css';
 
@@ -36,6 +37,12 @@ export class TexturePanel {
                 UI.call('refreshSize');
             });
 
+            const textureLetter = String.fromCharCode(65 + i);
+            const textureLetterButton = UITools.create('button', {class: 'texture-letter-button', text: textureLetter});
+            textureLetterButton.addEventListener('click', () => {
+                Clipboard.copyText(`tex${textureLetter}`);
+            });
+
             this.parametersModals[i] = UITools.create('details', {class: ['image-parameters-button', 'hidden']});
             this.refreshParametersModal(i);
 
@@ -62,6 +69,7 @@ export class TexturePanel {
             imageHolder.appendChild(label);
             imageHolder.appendChild(imageSizeButton);
             imageHolder.appendChild(this.parametersModals[i]);
+            imageHolder.appendChild(textureLetterButton);
             texturePanel.appendChild(imageHolder);
         }
     }

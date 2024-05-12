@@ -7,7 +7,7 @@ export default {
     confirmResetAll: 'Voulez-vous vraiment tout supprimer ?',
     resetAll: 'Tout supprimer',
     textureLabel: 'Textures',
-    bufferSelectorLabel: 'Buffer actuel :',
+    bufferSelectorLabel: 'Buffer :',
     size: 'Taille :',
     width: 'Largeur :',
     height: 'Hauteur :',
