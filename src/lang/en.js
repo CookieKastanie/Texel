@@ -27,6 +27,8 @@ export default {
     magFilter: 'Mag filter :',
     wrapS: 'Wrap S :',
     wrapT: 'Wrap T :',
+    copyToClipboard: 'Copy to clipboard',
+    setBufferSize: 'Set buffer size',
     helpText:
 `Specific types :
 

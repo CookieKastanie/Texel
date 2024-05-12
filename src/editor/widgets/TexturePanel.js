@@ -31,14 +31,13 @@ export class TexturePanel {
             const img = UITools.create('img', {src: './img/placeholder.png', alt: 'placeholder'});
 
             // Bouton pour applique la taille de l'image au buffer
-            const imageSizeButton = UITools.create('button', {class: ['image-size-button', 'hidden']});
+            const imageSizeButton = UITools.create('button', {class: ['image-size-button', 'hidden'], title: Text.get('setBufferSize')});
             imageSizeButton.addEventListener('click', () => {
                 Process.setSelectedLayerSize(img.naturalWidth, img.naturalHeight);
-                UI.call('refreshSize');
             });
 
             const textureLetter = String.fromCharCode(65 + i);
-            const textureLetterButton = UITools.create('button', {class: 'texture-letter-button', text: textureLetter});
+            const textureLetterButton = UITools.create('button', {class: 'texture-letter-button', text: textureLetter, title: Text.get('copyToClipboard')});
             textureLetterButton.addEventListener('click', () => {
                 Clipboard.copyText(`tex${textureLetter}`);
             });

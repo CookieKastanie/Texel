@@ -27,6 +27,8 @@ export default {
     magFilter: 'Filtre mag* :',
     wrapS: 'Enveloppe S :',
     wrapT: 'Enveloppe T :',
+    copyToClipboard: 'Copier dans le presse-papier',
+    setBufferSize: 'Définir la taille du buffer',
     helpText:
 `Types spécifiques :
 
