@@ -45,7 +45,7 @@ export class UniformsPanel {
             let input;
 
             const callback = () => {
-                values[i] = input.value;
+                values[i] = Number(input.value);
                 const layer = Process.getSelectedLayer();
                 layer.forceRender();
             }

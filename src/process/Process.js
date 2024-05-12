@@ -246,6 +246,7 @@ export class Process {
         
             default:
                 Process.recorder = new Recorder();
+                console.warn(`The ${format} format is not supported!\n(Supported formats: 'gif', 'png')`);
                 break;
         }
 
