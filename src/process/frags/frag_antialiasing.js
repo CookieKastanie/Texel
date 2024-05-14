@@ -60,5 +60,27 @@ export default [
                 color = vec4(rgbB, texColor.a);
             return color;
         }`
+    },
+    {
+        name: 'ssaa',
+        frag: `
+        vec4 ssaa(TextureInfos tex, vec2 uv) {
+            int level = min(
+                int(tex.size.x) / int(currentBuffer.size.x),
+                int(tex.size.y) / int(currentBuffer.size.y)
+            );
+            
+            vec2 texelSize = vec2(1.0 / tex.size.x, 1.0 / tex.size.y);
+        
+            vec4 outColor = vec4(0.0);
+            
+            int sampleCount = level / 2;
+            for(int x = -sampleCount; x <= sampleCount; ++x)
+            for(int y = -sampleCount; y <= sampleCount; ++y) {
+                outColor += texture(tex, uv + vec2(x, y) * texelSize);
+            }
+            
+            return vec4(outColor / pow(float(level) + 1.0, 2.0));
+        }`
     }
 ]

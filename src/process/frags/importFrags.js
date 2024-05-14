@@ -15,8 +15,8 @@ frags.push(...voronoise);
 import rotations from './frag_rotations';
 frags.push(...rotations);
 
-import fxaa from './frag_fxaa';
-frags.push(...fxaa);
+import antialiasing from './frag_antialiasing';
+frags.push(...antialiasing);
 
 import dither from './frag_dither';
 frags.push(...dither);

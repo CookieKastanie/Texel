@@ -69,6 +69,7 @@ Variables and constants :
 Additional functions :
 
     vec4 fxaa(TextureInfos, vec2)
+    vec4 ssaa(TextureInfos, vec2)
 
     vec3 rgb2hsv(vec3)
     vec3 hsv2rgb(vec3)
